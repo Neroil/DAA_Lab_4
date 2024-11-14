@@ -1,5 +1,6 @@
 package ch.heigvd.iict.daa.template
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,6 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu (menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu , menu)
+
+        // Hide/Show menu depending on orientation
+        val orientation = this.resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            menu?.findItem(R.id.main_menu_generate)?.setVisible(true)
+            menu?.findItem(R.id.main_menu_delete)?.setVisible(true)
+        } else {
+            menu?.findItem(R.id.main_menu_generate)?.setVisible(false)
+            menu?.findItem(R.id.main_menu_delete)?.setVisible(false)
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -24,5 +36,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
     }
 }
