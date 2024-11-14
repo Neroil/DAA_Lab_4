@@ -5,9 +5,8 @@ import ch.heigvd.iict.daa.labo4.models.Schedule
 import kotlin.concurrent.thread
 
 class NoteRepository(private val noteDao: NoteDao) {
-    val allNotes = noteDao.getAllNotes()
 
-    val allSchedule = noteDao.getAllNoteAndSchedule()
+    val allNoteAndSchedule = noteDao.getAllNoteAndSchedule()
 
     fun insertNotes(vararg notes: Note) {
         thread {
