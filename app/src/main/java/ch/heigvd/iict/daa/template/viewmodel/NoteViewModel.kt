@@ -6,17 +6,21 @@ import androidx.lifecycle.ViewModel
 
 class NoteViewModel : ViewModel() {
 
-    val nbNotes : LiveData<Int>get() = _nbNotes
-    val allNotes : LiveData<List<Int>>get() = _allNotes
+    val nbNotesAndSchedules : LiveData<Int>get() = _nbNotesAndSchedules
+    val allNotesAndSchedules : LiveData<List<Int>>get() = _allNotesAndSchedules
 
-    private val _nbNotes = MutableLiveData(0) // TODO get from repo
-    private val _allNotes = MutableLiveData(List(1) { _ -> 0 }) // TODO get from repo
+    private val _nbNotesAndSchedules = MutableLiveData(0) // TODO get from repo
+    private val _allNotesAndSchedules = MutableLiveData(List(1) { _ -> 0 }) // TODO get from repo
 
     fun generateANote() {
 
     }
 
-    fun deleteAllNote() {
+    fun generateASchedule() {
+
+    }
+
+    fun deleteAllNoteAndSchedules() {
 
     }
 }
