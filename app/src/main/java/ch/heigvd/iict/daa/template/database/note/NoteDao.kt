@@ -47,6 +47,10 @@ interface NoteDao {
     @Query("SELECT COUNT(*) FROM Note")
     fun getNbNotes(): LiveData<Int>
 
+    // Compteur de Notes direct
+    @Query("SELECT COUNT(*) FROM Note")
+    fun getNbNotesDirect(): Int
+
     // Récupération d'une Note par son ID
     @Query("SELECT * FROM Note WHERE noteId = :id")
     fun getNoteById(id: Long): LiveData<Note>

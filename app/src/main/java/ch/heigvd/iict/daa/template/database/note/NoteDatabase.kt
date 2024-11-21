@@ -35,21 +35,22 @@ abstract class NoteDatabase : RoomDatabase() {
 
     class NoteDatabaseCallBack : RoomDatabase.Callback() {
 
-
-
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 thread {
-                    val isEmpty = database.noteDao().getNbNotes().equals(0)
+                    val isEmpty = database.noteDao().getNbNotesDirect() == 0
 
                     if(isEmpty) {
-                        //TODO : Mettre truc par défaut
-                        val note = Note.generateRandomNote()
-                        val schedule = Note.generateRandomSchedule()
-                        database.noteDao().insert(note)
-                        schedule?.let {
-                            database.noteDao().insert(it)
+
+                        //Generate 20 notes and schedules
+                        for (i in 1..20) {
+                            val note = Note.generateRandomNote()
+                            val schedule = Note.generateRandomSchedule()
+                            database.noteDao().insert(note)
+                            schedule?.let {
+                                database.noteDao().insert(it)
+                            }
                         }
 
                     }

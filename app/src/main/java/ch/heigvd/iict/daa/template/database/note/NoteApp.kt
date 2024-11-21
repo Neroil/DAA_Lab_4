@@ -6,5 +6,6 @@ class NoteApp : Application() {
 
     val repository by lazy {
         val noteDatabase = NoteDatabase.getDatabase(this)
+        NoteRepository(noteDatabase.noteDao())
     }
 }

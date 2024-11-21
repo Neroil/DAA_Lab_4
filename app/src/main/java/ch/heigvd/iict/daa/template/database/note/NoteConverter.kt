@@ -11,6 +11,7 @@ class NoteConverter {
         Calendar.getInstance().apply {
             time = Date(dateLong)
         }
+
     @TypeConverter
     fun fromCalendar(date: Calendar) =
         date.time.time // Long
