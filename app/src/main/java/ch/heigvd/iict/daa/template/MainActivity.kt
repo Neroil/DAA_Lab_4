@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import ch.heigvd.iict.daa.template.database.note.NoteDatabase
+import ch.heigvd.iict.daa.template.database.note.NoteRepository
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreateOptionsMenu (menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu , menu)
 

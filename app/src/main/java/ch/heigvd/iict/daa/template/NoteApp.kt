@@ -1,6 +1,8 @@
-package ch.heigvd.iict.daa.template.database.note
+package ch.heigvd.iict.daa.template
 
 import android.app.Application
+import ch.heigvd.iict.daa.template.database.note.NoteDatabase
+import ch.heigvd.iict.daa.template.database.note.NoteRepository
 
 class NoteApp : Application() {
 
