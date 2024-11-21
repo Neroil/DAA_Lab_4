@@ -1,17 +1,19 @@
 package ch.heigvd.iict.daa.template.fragments
 
+import android.R
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
-import ch.heigvd.iict.daa.template.MainActivity
 import ch.heigvd.iict.daa.template.NoteApp
 import ch.heigvd.iict.daa.template.R
 import ch.heigvd.iict.daa.template.viewmodel.NoteViewModel
 import ch.heigvd.iict.daa.template.viewmodel.factory.NoteVMFactory
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,10 +34,14 @@ class NoteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val recycler =(RecyclerView) getView().findViewById(R.id.list)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val textView: RecyclerView = view.findViewById(ch.heigvd.iict.daa.template.R.id.list)
         val adapter = MyRecyclerAdapter
         recycler adapter = adapter
-                recycler layoutManager = LinearLayoutManager this
+        recycler layoutManager = LinearLayoutManager this
 
     }
 
