@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ControlFragment">
+    tools:context=".fragments.ControlFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/note_counte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11"/>
+
+    <Button
+        android:id="@+id/generate_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/generate"/>
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
