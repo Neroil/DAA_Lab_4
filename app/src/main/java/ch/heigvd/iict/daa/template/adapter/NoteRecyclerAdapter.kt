@@ -61,15 +61,16 @@ class NoteRecyclerAdapter(
             when (getItemViewType(adapterPosition)) {
                 NOTE -> {
                     noteTitle?.text = noteAndSchedule.note.title
-                    //noteContent?.text = noteAndSchedule.note.content
+                    noteText?.text = noteAndSchedule.note.text
                 }
 
-                /*SCHEDULE -> {
-                    scheduleTitle?.text = noteAndSchedule.note.title
-                    scheduleDateTime?.text = noteAndSchedule.schedule?.dateTime.toString()
+                SCHEDULE -> {
+                    noteTitle?.text = noteAndSchedule.note.title
+                    noteText?.text = noteAndSchedule.note.text
+                    noteTime?.text = noteAndSchedule.schedule?.date.toString()
                 }
 
-                 */
+
             }
         }
     }
