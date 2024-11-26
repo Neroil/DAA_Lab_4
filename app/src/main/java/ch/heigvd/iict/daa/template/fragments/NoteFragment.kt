@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.template.NoteApp
@@ -47,8 +48,10 @@ class NoteFragment : Fragment() {
         // Initializing the adapter
         noteRecyclerAdapter = NoteRecyclerAdapter()
 
+
         recyclerView.apply {
             adapter = noteRecyclerAdapter
+            layoutManager = LinearLayoutManager(requireContext())
         }
 
         // observing the live data
