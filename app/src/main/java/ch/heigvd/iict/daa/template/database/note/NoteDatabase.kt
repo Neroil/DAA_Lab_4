@@ -7,9 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import ch.heigvd.iict.daa.labo4.models.Note
+import ch.heigvd.iict.daa.labo4.models.Schedule
 import kotlin.concurrent.thread
 
-@Database(entities = [Note::class],
+@Database(entities = [Note::class, Schedule::class],
     version = 1,
     exportSchema = true)
 @TypeConverters(NoteConverter::class)

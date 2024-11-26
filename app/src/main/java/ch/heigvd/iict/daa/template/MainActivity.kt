@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import ch.heigvd.iict.daa.template.adapter.NoteRecyclerAdapter
 import ch.heigvd.iict.daa.template.database.note.NoteDatabase
 import ch.heigvd.iict.daa.template.database.note.NoteRepository
 
@@ -22,6 +25,13 @@ class MainActivity : AppCompatActivity() {
             menu?.findItem(R.id.main_menu_generate)?.setVisible(false)
             menu?.findItem(R.id.main_menu_delete)?.setVisible(false)
         }
+
+        // Population de la liste
+        val list = findViewById<RecyclerView>(R.id.list)
+        val adapter = NoteRecyclerAdapter()
+        list.adapter = adapter
+        list.layoutManager = LinearLayoutManager(this)
+
 
         return super.onCreateOptionsMenu(menu)
     }

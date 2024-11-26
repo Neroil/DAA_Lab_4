@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.template.R
 
-class MyRecyclerAdapter(_items: List<NoteAndSchedule> = listOf()) :
-    RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>() {
+class NoteRecyclerAdapter(
+    private val _items: List<NoteAndSchedule> = listOf()
+    ) :
+    RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
 
     var items = listOf<NoteAndSchedule>()
         set(value) {
@@ -58,15 +60,16 @@ class MyRecyclerAdapter(_items: List<NoteAndSchedule> = listOf()) :
             when (getItemViewType(adapterPosition)) {
                 NOTE -> {
                     noteTitle?.text = noteAndSchedule.note.title
-                    //noteContent?.text = noteAndSchedule.note.content
+                    noteText?.text = noteAndSchedule.note.text
                 }
 
-                /*SCHEDULE -> {
-                    scheduleTitle?.text = noteAndSchedule.note.title
-                    scheduleDateTime?.text = noteAndSchedule.schedule?.dateTime.toString()
+                SCHEDULE -> {
+                    noteTitle?.text = noteAndSchedule.note.title
+                    noteText?.text = noteAndSchedule.note.text
+                    noteTime?.text = noteAndSchedule.schedule?.date.toString()
                 }
 
-                 */
+
             }
         }
     }
