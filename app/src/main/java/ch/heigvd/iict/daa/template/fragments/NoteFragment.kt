@@ -45,8 +45,7 @@ class NoteFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.list)
 
         // Initializing the adapter
-        noteRecyclerAdapter = NoteRecyclerAdapter(
-        )
+        noteRecyclerAdapter = NoteRecyclerAdapter()
 
         recyclerView.apply {
             adapter = noteRecyclerAdapter
