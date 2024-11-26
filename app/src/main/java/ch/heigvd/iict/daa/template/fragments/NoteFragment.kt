@@ -1,16 +1,18 @@
 package ch.heigvd.iict.daa.template.fragments
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
+import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.template.NoteApp
 import ch.heigvd.iict.daa.template.R
+import ch.heigvd.iict.daa.template.adapter.NoteRecyclerAdapter
 import ch.heigvd.iict.daa.template.viewmodel.NoteViewModel
 import ch.heigvd.iict.daa.template.viewmodel.factory.NoteVMFactory
 
@@ -27,6 +29,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class NoteFragment : Fragment() {
 
+    private lateinit var noteRecyclerAdapter: NoteRecyclerAdapter
+
     private val viewModel : NoteViewModel by activityViewModels{
         NoteVMFactory((requireActivity().application as NoteApp).repository)
     }
@@ -38,12 +42,23 @@ class NoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val textView: RecyclerView = view.findViewById(ch.heigvd.iict.daa.template.R.id.list)
-        val adapter = MyRecyclerAdapter
-        recycler adapter = adapter
-        recycler layoutManager = LinearLayoutManager this
+        val recyclerView: RecyclerView = view.findViewById(R.id.list)
 
+        // Initializing the adapter
+        noteRecyclerAdapter = NoteRecyclerAdapter(
+            { Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show() }
+        )
+
+        recyclerView.apply {
+            adapter = noteRecyclerAdapter
+        }
+
+        // observing the live data
+        viewModel.allNotesAndSchedules.observe(viewLifecycleOwner) { notes ->
+            noteRecyclerAdapter.items = notes
+        }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

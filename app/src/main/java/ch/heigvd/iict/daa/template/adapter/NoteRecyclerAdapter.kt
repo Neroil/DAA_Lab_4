@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.template.R
 
-class MyRecyclerAdapter(_items: List<NoteAndSchedule> = listOf()) :
-    RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>() {
+class NoteRecyclerAdapter(
+    private val onClickListener: View.OnClickListener,
+    private val _items: List<NoteAndSchedule> = listOf()
+    ) :
+    RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
 
     var items = listOf<NoteAndSchedule>()
         set(value) {
