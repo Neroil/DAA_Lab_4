@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.template.R
@@ -13,10 +15,14 @@ class NoteRecyclerAdapter(
     ) :
     RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
 
+    private val differ = AsyncListDiffer(this, NoteAndScheduleDiffCallback())
+
     var items = listOf<NoteAndSchedule>()
         set(value) {
+            //val diffCallback = NoteAndScheduleDiffCallback()
+            //val diffItems = DiffUtil.calculateDiff(diffCallback)
             field = value
-            //notifyDataSetChanged()
+            differ.submitList(value)
         }
 
     init {
@@ -72,5 +78,15 @@ class NoteRecyclerAdapter(
 
             }
         }
+    }
+}
+
+class NoteAndScheduleDiffCallback : DiffUtil.ItemCallback<NoteAndSchedule>() {
+    override fun areItemsTheSame(oldItem: NoteAndSchedule, newItem: NoteAndSchedule): Boolean {
+        return oldItem.note.noteId == newItem.note.noteId
+    }
+
+    override fun areContentsTheSame(oldItem: NoteAndSchedule, newItem: NoteAndSchedule): Boolean {
+        return oldItem == newItem
     }
 }

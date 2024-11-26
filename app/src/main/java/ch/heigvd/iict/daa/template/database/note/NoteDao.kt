@@ -40,6 +40,9 @@ interface NoteDao {
     @Query("DELETE FROM Note")
     fun deleteAllNotes()
 
+    @Query ("DELETE FROM Schedule")
+    fun deleteAllSchedules()
+
     // Récupération de toutes les Notes
     @Transaction
     @Query("SELECT * FROM Note")

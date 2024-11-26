@@ -16,16 +16,11 @@ class NoteViewModel(private val repo:NoteRepository) : ViewModel() {
     private val _nbNotesAndSchedules = repo.nbNotes
 
 
-    fun generateANote() {
+    fun generateANoteAndSchedule() {
         val note = Note.generateRandomNote()
-        repo.insertNotes(note)
-    }
-
-    fun generateASchedule() {
         val schedule = Note.generateRandomSchedule()
-        if (schedule != null) {
-            repo.insertSchedule(schedule)
-        }
+
+        repo.insertNotesAndMaybeSchedule(note, schedule)
     }
 
     fun deleteAllNoteAndSchedules() {

@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected (item: MenuItem): Boolean{
         return when (item. itemId ){
             R.id.main_menu_generate -> {
-                noteViewModel.generateANote()
+                noteViewModel.generateANoteAndSchedule()
                 true
             }
             R.id.main_menu_delete -> {
