@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import ch.heigvd.iict.daa.labo4.models.Note
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
@@ -40,6 +41,7 @@ interface NoteDao {
     fun deleteAllNotes()
 
     // Récupération de toutes les Notes
+    @Transaction
     @Query("SELECT * FROM Note")
     fun getAllNotes(): LiveData<List<Note>>
 
