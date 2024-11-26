@@ -46,7 +46,6 @@ class NoteFragment : Fragment() {
 
         // Initializing the adapter
         noteRecyclerAdapter = NoteRecyclerAdapter(
-            { Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show() }
         )
 
         recyclerView.apply {

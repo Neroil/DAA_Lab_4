@@ -9,7 +9,6 @@ import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.template.R
 
 class NoteRecyclerAdapter(
-    private val onClickListener: View.OnClickListener,
     private val _items: List<NoteAndSchedule> = listOf()
     ) :
     RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
