@@ -1,32 +1,35 @@
 package ch.heigvd.iict.daa.template.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
-import ch.heigvd.iict.daa.template.R
+import ch.heigvd.iict.daa.template.databinding.ListItemScheduledBinding as ScheduleViewBinding
+import ch.heigvd.iict.daa.template.databinding.ListItemUnscheduledBinding as NoteViewBinding
 
 class NoteRecyclerAdapter(
-    private val _items: List<NoteAndSchedule> = listOf()
+    listItems: List<NoteAndSchedule> = listOf()
     ) :
     RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
 
     private val differ = AsyncListDiffer(this, NoteAndScheduleDiffCallback())
 
     var items = listOf<NoteAndSchedule>()
+        get() = differ.currentList
         set(value) {
             //val diffCallback = NoteAndScheduleDiffCallback()
             //val diffItems = DiffUtil.calculateDiff(diffCallback)
+            Log.d("RecyclerViewAdapter", "Nouvelle valeur de taille ${value.size}: $value")
             field = value
             differ.submitList(value)
         }
 
     init {
-        items = _items
+        items = listItems
     }
 
     override fun getItemCount() = items.size
@@ -41,41 +44,37 @@ class NoteRecyclerAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return when (viewType) {
-            NOTE -> ViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.list_item_unscheduled, parent, false)
-            )
-            else -> ViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.list_item_scheduled, parent, false)
-            )
+        return if (viewType == NOTE) {
+            val binding = NoteViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ViewHolder(binding)
+        }else {
+            val binding = ScheduleViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ViewHolder(binding)
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Log.d("RecyclerViewAdapter", "Binding $position with ${items[position]}")
         holder.bind(items[position])
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val noteTitle = view.findViewById<TextView>(R.id.note_title)
-        private val noteText = view.findViewById<TextView>(R.id.note_text)
-        private val noteTime = view.findViewById<TextView>(R.id.note_time)
+    inner class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(noteAndSchedule: NoteAndSchedule) {
-            when (getItemViewType(adapterPosition)) {
-                NOTE -> {
-                    noteTitle?.text = noteAndSchedule.note.title
-                    noteText?.text = noteAndSchedule.note.text
+            when(binding) {
+                is NoteViewBinding -> binding.apply {
+                    with(noteAndSchedule){
+                        noteTitle.text = note.title
+                        noteText.text = note.text
+                    }
                 }
-
-                SCHEDULE -> {
-                    noteTitle?.text = noteAndSchedule.note.title
-                    noteText?.text = noteAndSchedule.note.text
-                    noteTime?.text = noteAndSchedule.schedule?.date.toString()
+                is ScheduleViewBinding -> binding.apply {
+                    with(noteAndSchedule){
+                        noteTitle.text = note.title
+                        noteText.text = note.text
+                        noteTime.text = schedule?.date.toString()
+                    }
                 }
-
-
             }
         }
     }

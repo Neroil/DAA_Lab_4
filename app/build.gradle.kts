@@ -8,6 +8,10 @@ android {
     namespace = "ch.heigvd.iict.daa.template"
     compileSdk = 34
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
     }
