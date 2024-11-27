@@ -84,7 +84,7 @@ class NoteRecyclerAdapter(
                 State.IN_PROGRESS -> ContextCompat.getColor(binding.root.context, R.color.black)
                 State.DONE -> ContextCompat.getColor(binding.root.context, R.color.green)
             }
-            when(binding) {
+            when (binding) {
                 is NoteViewBinding -> binding.apply {
                     with(noteAndSchedule) {
                         noteTitle.text = note.title
@@ -105,33 +105,38 @@ class NoteRecyclerAdapter(
                             noteTime.visibility = View.VISIBLE
                             // Convert the note's schedule date to a friendly time string
                             val friendlyTime = schedule.date.let { date ->
-                                CalendarConverter().convertDateToSomethingCool(itemView.context, date)
-
-                        noteTime.visibility = View.VISIBLE
-                        // Convert the date to something like (1 day, 2 weeks, etc.)
-                        val readableTime =
-                            schedule!!.date.let { date -> // We know that schedule is not null here
                                 CalendarConverter().convertDateToSomethingCool(
                                     itemView.context,
                                     date
                                 )
+
+                                noteTime.visibility = View.VISIBLE
+                                // Convert the date to something like (1 day, 2 weeks, etc.)
+                                val readableTime =
+                                    schedule!!.date.let { date -> // We know that schedule is not null here
+                                        CalendarConverter().convertDateToSomethingCool(
+                                            itemView.context,
+                                            date
+                                        )
+                                    }
+                                noteTime.text = readableTime
+                                // Check if the schedule is "Late" and set text color
+                                if (readableTime == itemView.context.getString(R.string.late)) {
+                                    noteTime.setTextColor(
+                                        ContextCompat.getColor(
+                                            itemView.context,
+                                            R.color.red
+                                        )
+                                    )
+                                } else {
+                                    noteTime.setTextColor(
+                                        ContextCompat.getColor(
+                                            itemView.context,
+                                            R.color.grey
+                                        )
+                                    )
+                                }
                             }
-                        noteTime.text = readableTime
-                        // Check if the schedule is "Late" and set text color
-                        if (readableTime == itemView.context.getString(R.string.late)) {
-                            noteTime.setTextColor(
-                                ContextCompat.getColor(
-                                    itemView.context,
-                                    R.color.red
-                                )
-                            )
-                        } else {
-                            noteTime.setTextColor(
-                                ContextCompat.getColor(
-                                    itemView.context,
-                                    R.color.grey
-                                )
-                            )
                         }
                     }
                 }
@@ -139,8 +144,6 @@ class NoteRecyclerAdapter(
         }
     }
 }
-        }
-
 
 class CalendarConverter {
     fun convertDateToSomethingCool(context: Context, date: Calendar): String {
@@ -162,7 +165,6 @@ class CalendarConverter {
             days > 0 -> context.getString(R.string.days, days)
             else -> context.getString(R.string.soon)
         }
-    }
     }
 }
 
