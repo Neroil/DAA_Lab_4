@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
+import ch.heigvd.iict.daa.labo4.models.State
 import ch.heigvd.iict.daa.labo4.models.Type
 import ch.heigvd.iict.daa.template.R
-import ch.heigvd.iict.daa.template.database.note.NoteConverter
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import ch.heigvd.iict.daa.template.databinding.ListItemScheduledBinding as ScheduleViewBinding
@@ -76,12 +76,17 @@ class NoteRecyclerAdapter(
                 Type.WORK -> R.drawable.work
                 Type.FAMILY -> R.drawable.family
             }
+            val iconTint = when (noteAndSchedule.note.state) {
+                State.IN_PROGRESS -> ContextCompat.getColor(binding.root.context, R.color.black)
+                State.DONE -> ContextCompat.getColor(binding.root.context, R.color.green)
+            }
             when(binding) {
                 is NoteViewBinding -> binding.apply {
                     with(noteAndSchedule){
                         noteTitle.text = note.title
                         noteText.text = note.text
                         icon.setImageResource(iconResources)
+                        icon.setColorFilter(iconTint, android.graphics.PorterDuff.Mode.SRC_IN)
                     }
                 }
                 is ScheduleViewBinding -> binding.apply {
@@ -89,6 +94,7 @@ class NoteRecyclerAdapter(
                         noteTitle.text = note.title
                         noteText.text = note.text
                         icon.setImageResource(iconResources)
+                        icon.setColorFilter(iconTint, android.graphics.PorterDuff.Mode.SRC_IN)
                         if (schedule != null) {
                             noteTime.visibility = View.VISIBLE
                             // Convert the note's schedule date to a friendly time string
