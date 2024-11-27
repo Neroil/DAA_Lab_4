@@ -11,6 +11,27 @@ Le ViewModel à été implémenté comme conseillé dans les slides du cours. Il
 
 Quand l'utilisateur fait ce genre de choix nous pouvons le stocker dans une SharedPreference qui nous permettra de le retrouver facilement même après l'interruption de l'application. Cela se justifie par le fait que le choix de l'option de tri est une petite donnée à gérer qui ne justifie pas la gestion manuelle d'ouverture et d'écriture de fichier ou de l'utilisation d'une DB.
 
+Pour cela, il faudrait intégrer la récupération et la sauvegarde de cette donnée dans le cycle de vie de l'activité.
+
+MainActivity.kt
+```kotlin
+  override fun onCreate(savedInstanceState: Bundle?) {
+    ...
+    val prefs : SharedPreferences = getPreferences(Context.MODE_PRIVATE)
+    noteViewModel.setSortType(prefs.getString("sortType"))
+  }
+
+  ...
+
+  override fun onDestroy() {
+    ...
+    val prefs : SharedPreferences = getPreferences(Context.MODE_PRIVATE)
+    prefs.edit().putString("sortType", noteViewModel.getSortType()).apply()
+  }  
+```
+
+On admet dans l'exemple que les getter / setter existent avec la conversion de `String` vers l'enum `SortType` dans notre classe.
+
 > L’accès à la liste des notes issues de la base de données Room se fait avec une LiveData. Est-ce que cette solution présente des limites ? Si oui, quelles sont-elles ? Voyez-vous une autre approche plus adaptée ?
 
 Oui plusieurs limites sont présentes:
