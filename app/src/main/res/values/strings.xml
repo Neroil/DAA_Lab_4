@@ -6,4 +6,9 @@
     <string name="creationDate">Creation date</string>
     <string name="eta">ETA</string>
     <string name="sort">sort</string>
+    <string name="late">Late</string>
+    <string name="soon">Soon</string>
+    <string name="days">%d days</string>
+    <string name="weeks">%d weeks</string>
+    <string name="months">%d months</string>
 </resources>
