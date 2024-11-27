@@ -28,7 +28,7 @@ data class Note(
             val _state = if(rand.nextBoolean()) State.IN_PROGRESS else State.DONE
             val _title = getRandomString(4 + rand.nextInt(10))
             val _text = getRandomString(8 + rand.nextInt(20))
-            val _type = Type.values()[rand.nextInt(Type.values().size)]
+            val _type = Type.entries[rand.nextInt(Type.entries.size)]
 
             return Note(
                 null,

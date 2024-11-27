@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
+import ch.heigvd.iict.daa.labo4.models.Type
+import ch.heigvd.iict.daa.template.R
 import ch.heigvd.iict.daa.template.databinding.ListItemScheduledBinding as ScheduleViewBinding
 import ch.heigvd.iict.daa.template.databinding.ListItemUnscheduledBinding as NoteViewBinding
 
@@ -61,11 +63,19 @@ class NoteRecyclerAdapter(
     inner class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(noteAndSchedule: NoteAndSchedule) {
+            val iconResources = when (noteAndSchedule.note.type) {
+                Type.NONE -> R.drawable.note
+                Type.TODO -> R.drawable.todo
+                Type.SHOPPING -> R.drawable.shopping
+                Type.WORK -> R.drawable.work
+                Type.FAMILY -> R.drawable.family
+            }
             when(binding) {
                 is NoteViewBinding -> binding.apply {
                     with(noteAndSchedule){
                         noteTitle.text = note.title
                         noteText.text = note.text
+                        icon.setImageResource(iconResources)
                     }
                 }
                 is ScheduleViewBinding -> binding.apply {
@@ -73,6 +83,7 @@ class NoteRecyclerAdapter(
                         noteTitle.text = note.title
                         noteText.text = note.text
                         noteTime.text = schedule?.date.toString()
+                        icon.setImageResource(iconResources)
                     }
                 }
             }
