@@ -13,7 +13,6 @@ import androidx.viewbinding.ViewBinding
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.labo4.models.Type
 import ch.heigvd.iict.daa.template.R
-import ch.heigvd.iict.daa.template.database.note.NoteConverter
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import ch.heigvd.iict.daa.template.databinding.ListItemScheduledBinding as ScheduleViewBinding
@@ -21,7 +20,7 @@ import ch.heigvd.iict.daa.template.databinding.ListItemUnscheduledBinding as Not
 
 class NoteRecyclerAdapter(
     listItems: List<NoteAndSchedule> = listOf()
-    ) :
+) :
     RecyclerView.Adapter<NoteRecyclerAdapter.ViewHolder>() {
 
     private val differ = AsyncListDiffer(this, NoteAndScheduleDiffCallback())
@@ -53,10 +52,12 @@ class NoteRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == NOTE) {
-            val binding = NoteViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding =
+                NoteViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             ViewHolder(binding)
-        }else {
-            val binding = ScheduleViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        } else {
+            val binding =
+                ScheduleViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             ViewHolder(binding)
         }
     }
@@ -66,9 +67,11 @@ class NoteRecyclerAdapter(
         holder.bind(items[position])
     }
 
-    inner class ViewHolder(private val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(noteAndSchedule: NoteAndSchedule) {
+
             val iconResources = when (noteAndSchedule.note.type) {
                 Type.NONE -> R.drawable.note
                 Type.TODO -> R.drawable.todo
@@ -76,35 +79,47 @@ class NoteRecyclerAdapter(
                 Type.WORK -> R.drawable.work
                 Type.FAMILY -> R.drawable.family
             }
-            when(binding) {
+            when (binding) {
                 is NoteViewBinding -> binding.apply {
-                    with(noteAndSchedule){
+                    with(noteAndSchedule) {
                         noteTitle.text = note.title
                         noteText.text = note.text
                         icon.setImageResource(iconResources)
+
                     }
                 }
+
                 is ScheduleViewBinding -> binding.apply {
-                    with(noteAndSchedule){
+                    with(noteAndSchedule) {
                         noteTitle.text = note.title
                         noteText.text = note.text
                         icon.setImageResource(iconResources)
-                        if (schedule != null) {
-                            noteTime.visibility = View.VISIBLE
-                            // Convert the note's schedule date to a friendly time string
-                            val friendlyTime = schedule.date.let { date ->
-                                CalendarConverter().convertDateToSomethingCool(itemView.context, date)
-                            }
-                            noteTime.text = friendlyTime
 
-                            // Check if the schedule is "Late" and set text color
-                            if (friendlyTime == itemView.context.getString(R.string.late)) {
-                                noteTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.red))
-                            } else {
-                                noteTime.setTextColor(ContextCompat.getColor(itemView.context, R.color.grey))
+                        noteTime.visibility = View.VISIBLE
+                        // Convert the date to something like (1 day, 2 weeks, etc.)
+                        val readableTime =
+                            schedule!!.date.let { date -> // We know that schedule is not null here
+                                CalendarConverter().convertDateToSomethingCool(
+                                    itemView.context,
+                                    date
+                                )
                             }
+                        noteTime.text = readableTime
+                        // Check if the schedule is "Late" and set text color
+                        if (readableTime == itemView.context.getString(R.string.late)) {
+                            noteTime.setTextColor(
+                                ContextCompat.getColor(
+                                    itemView.context,
+                                    R.color.red
+                                )
+                            )
                         } else {
-                            noteTime.visibility = View.GONE
+                            noteTime.setTextColor(
+                                ContextCompat.getColor(
+                                    itemView.context,
+                                    R.color.grey
+                                )
+                            )
                         }
                     }
                 }
@@ -112,6 +127,7 @@ class NoteRecyclerAdapter(
         }
     }
 }
+
 
 class CalendarConverter {
     fun convertDateToSomethingCool(context: Context, date: Calendar): String {

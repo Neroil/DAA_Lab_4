@@ -27,4 +27,5 @@ class NoteRepository(private val noteDao: NoteDao) {
             noteDao.deleteAllSchedules()
         }
     }
+
 }

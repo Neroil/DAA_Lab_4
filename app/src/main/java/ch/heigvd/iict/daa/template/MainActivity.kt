@@ -12,6 +12,7 @@ import ch.heigvd.iict.daa.template.adapter.NoteRecyclerAdapter
 import ch.heigvd.iict.daa.template.database.note.NoteDatabase
 import ch.heigvd.iict.daa.template.database.note.NoteRepository
 import ch.heigvd.iict.daa.template.viewmodel.NoteViewModel
+import ch.heigvd.iict.daa.template.viewmodel.SortType
 import ch.heigvd.iict.daa.template.viewmodel.factory.NoteVMFactory
 
 class MainActivity : AppCompatActivity() {
@@ -49,11 +50,11 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.sort_menu_creation_date -> {
-                //noteViewModel.setSortType(NoteViewModel.SortType.CREATION_DATE)
+                noteViewModel.setSortType(SortType.CREATION_DATE)
                 true
             }
             R.id.sort_menu_eta -> {
-                //noteViewModel.setSortType(NoteViewModel.SortType.ETA)
+                noteViewModel.setSortType(SortType.ETA)
                 true
             }
             else -> super.onOptionsItemSelected (item)
