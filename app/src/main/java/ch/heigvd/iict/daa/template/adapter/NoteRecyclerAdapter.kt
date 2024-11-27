@@ -1,15 +1,19 @@
 package ch.heigvd.iict.daa.template.adapter
 
+import android.content.res.ColorStateList
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
+import ch.heigvd.iict.daa.labo4.models.State
 import ch.heigvd.iict.daa.labo4.models.Type
 import ch.heigvd.iict.daa.template.R
+import kotlin.coroutines.coroutineContext
 import ch.heigvd.iict.daa.template.databinding.ListItemScheduledBinding as ScheduleViewBinding
 import ch.heigvd.iict.daa.template.databinding.ListItemUnscheduledBinding as NoteViewBinding
 
@@ -70,12 +74,17 @@ class NoteRecyclerAdapter(
                 Type.WORK -> R.drawable.work
                 Type.FAMILY -> R.drawable.family
             }
+            val iconTint = when (noteAndSchedule.note.state) {
+                State.IN_PROGRESS -> ContextCompat.getColor(binding.root.context, R.color.black)
+                State.DONE -> ContextCompat.getColor(binding.root.context, R.color.green)
+            }
             when(binding) {
                 is NoteViewBinding -> binding.apply {
                     with(noteAndSchedule){
                         noteTitle.text = note.title
                         noteText.text = note.text
                         icon.setImageResource(iconResources)
+                        icon.setColorFilter(iconTint, android.graphics.PorterDuff.Mode.SRC_IN)
                     }
                 }
                 is ScheduleViewBinding -> binding.apply {
@@ -84,6 +93,7 @@ class NoteRecyclerAdapter(
                         noteText.text = note.text
                         noteTime.text = schedule?.date.toString()
                         icon.setImageResource(iconResources)
+                        icon.setColorFilter(iconTint, android.graphics.PorterDuff.Mode.SRC_IN)
                     }
                 }
             }
