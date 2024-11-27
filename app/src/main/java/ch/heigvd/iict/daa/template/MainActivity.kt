@@ -6,11 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import ch.heigvd.iict.daa.template.adapter.NoteRecyclerAdapter
-import ch.heigvd.iict.daa.template.database.note.NoteDatabase
-import ch.heigvd.iict.daa.template.database.note.NoteRepository
 import ch.heigvd.iict.daa.template.viewmodel.NoteViewModel
 import ch.heigvd.iict.daa.template.viewmodel.SortType
 import ch.heigvd.iict.daa.template.viewmodel.factory.NoteVMFactory
@@ -20,8 +15,6 @@ class MainActivity : AppCompatActivity() {
     private val noteViewModel: NoteViewModel by viewModels {
         NoteVMFactory((application as NoteApp).repository)
     }
-
-
 
     override fun onCreateOptionsMenu (menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu , menu)

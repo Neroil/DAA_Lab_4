@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
+import ch.heigvd.iict.daa.labo4.models.State
 import ch.heigvd.iict.daa.labo4.models.Type
 import ch.heigvd.iict.daa.template.R
 import java.util.Calendar
@@ -79,12 +80,17 @@ class NoteRecyclerAdapter(
                 Type.WORK -> R.drawable.work
                 Type.FAMILY -> R.drawable.family
             }
-            when (binding) {
+            val iconTint = when (noteAndSchedule.note.state) {
+                State.IN_PROGRESS -> ContextCompat.getColor(binding.root.context, R.color.black)
+                State.DONE -> ContextCompat.getColor(binding.root.context, R.color.green)
+            }
+            when(binding) {
                 is NoteViewBinding -> binding.apply {
                     with(noteAndSchedule) {
                         noteTitle.text = note.title
                         noteText.text = note.text
                         icon.setImageResource(iconResources)
+                        icon.setColorFilter(iconTint, android.graphics.PorterDuff.Mode.SRC_IN)
 
                     }
                 }
@@ -94,6 +100,12 @@ class NoteRecyclerAdapter(
                         noteTitle.text = note.title
                         noteText.text = note.text
                         icon.setImageResource(iconResources)
+                        icon.setColorFilter(iconTint, android.graphics.PorterDuff.Mode.SRC_IN)
+                        if (schedule != null) {
+                            noteTime.visibility = View.VISIBLE
+                            // Convert the note's schedule date to a friendly time string
+                            val friendlyTime = schedule.date.let { date ->
+                                CalendarConverter().convertDateToSomethingCool(itemView.context, date)
 
                         noteTime.visibility = View.VISIBLE
                         // Convert the date to something like (1 day, 2 weeks, etc.)
@@ -127,6 +139,7 @@ class NoteRecyclerAdapter(
         }
     }
 }
+        }
 
 
 class CalendarConverter {
@@ -149,6 +162,7 @@ class CalendarConverter {
             days > 0 -> context.getString(R.string.days, days)
             else -> context.getString(R.string.soon)
         }
+    }
     }
 }
 
