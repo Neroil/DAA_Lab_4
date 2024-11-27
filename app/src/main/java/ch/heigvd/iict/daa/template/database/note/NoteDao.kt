@@ -10,6 +10,11 @@ import ch.heigvd.iict.daa.labo4.models.Note
 import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.labo4.models.Schedule
 
+/**
+ * Data Access Object of the database.
+ *
+ * Authors : Junod Arthur, Dunant Guillaume, Häffner Edwin
+ */
 @Dao
 interface NoteDao {
 

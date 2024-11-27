@@ -6,6 +6,11 @@ import ch.heigvd.iict.daa.labo4.models.NoteAndSchedule
 import ch.heigvd.iict.daa.labo4.models.Schedule
 import kotlin.concurrent.thread
 
+/**
+ * Repository for the database.
+ *
+ * Authors : Junod Arthur, Dunant Guillaume, Häffner Edwin
+ */
 class NoteRepository(private val noteDao: NoteDao) {
 
     val allNoteAndSchedule: LiveData<List<NoteAndSchedule>> = noteDao.getAllNoteAndSchedule()

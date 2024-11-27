@@ -46,9 +46,9 @@ class NoteFragment : Fragment() {
 
         // observing the live data
         viewModel.allNotesAndSchedules.observe(viewLifecycleOwner) { notes ->
-            Log.d("NoteFragment", "All notes from ViewModel $notes")
+            //Log.d("NoteFragment", "All notes from ViewModel $notes")
             noteRecyclerAdapter.items = notes
-            Log.d("NoteFragment", "Should have all notes ${noteRecyclerAdapter.items}")
+            //Log.d("NoteFragment", "Should have all notes ${noteRecyclerAdapter.items}")
         }
     }
 

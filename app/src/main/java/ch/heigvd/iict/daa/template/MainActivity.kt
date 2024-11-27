@@ -10,6 +10,11 @@ import ch.heigvd.iict.daa.template.viewmodel.NoteViewModel
 import ch.heigvd.iict.daa.template.viewmodel.SortType
 import ch.heigvd.iict.daa.template.viewmodel.factory.NoteVMFactory
 
+/**
+ * Main activity of the note display app
+ *
+ * Authors : Junod Arthur, Dunant Guillaume, Häffner Edwin
+ */
 class MainActivity : AppCompatActivity() {
 
     private val noteViewModel: NoteViewModel by viewModels {

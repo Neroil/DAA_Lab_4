@@ -19,6 +19,11 @@ import java.util.concurrent.TimeUnit
 import ch.heigvd.iict.daa.template.databinding.ListItemScheduledBinding as ScheduleViewBinding
 import ch.heigvd.iict.daa.template.databinding.ListItemUnscheduledBinding as NoteViewBinding
 
+/**
+ * Adapter for the recycler view.
+ *
+ * Authors : Junod Arthur, Dunant Guillaume, Häffner Edwin
+ */
 class NoteRecyclerAdapter(
     listItems: List<NoteAndSchedule> = listOf()
 ) :
@@ -29,9 +34,7 @@ class NoteRecyclerAdapter(
     var items = listOf<NoteAndSchedule>()
         get() = differ.currentList
         set(value) {
-            //val diffCallback = NoteAndScheduleDiffCallback()
-            //val diffItems = DiffUtil.calculateDiff(diffCallback)
-            Log.d("RecyclerViewAdapter", "Nouvelle valeur de taille ${value.size}: $value")
+            //Log.d("RecyclerViewAdapter", "Nouvelle valeur de taille ${value.size}: $value")
             field = value
             differ.submitList(value)
         }
@@ -64,7 +67,7 @@ class NoteRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("RecyclerViewAdapter", "Binding $position with ${items[position]}")
+        //Log.d("RecyclerViewAdapter", "Binding $position with ${items[position]}")
         holder.bind(items[position])
     }
 
@@ -80,10 +83,12 @@ class NoteRecyclerAdapter(
                 Type.WORK -> R.drawable.work
                 Type.FAMILY -> R.drawable.family
             }
+
             val iconTint = when (noteAndSchedule.note.state) {
                 State.IN_PROGRESS -> ContextCompat.getColor(binding.root.context, R.color.black)
                 State.DONE -> ContextCompat.getColor(binding.root.context, R.color.green)
             }
+
             when (binding) {
                 is NoteViewBinding -> binding.apply {
                     with(noteAndSchedule) {
@@ -94,49 +99,37 @@ class NoteRecyclerAdapter(
 
                     }
                 }
-
                 is ScheduleViewBinding -> binding.apply {
                     with(noteAndSchedule) {
                         noteTitle.text = note.title
                         noteText.text = note.text
                         icon.setImageResource(iconResources)
                         icon.setColorFilter(iconTint, android.graphics.PorterDuff.Mode.SRC_IN)
-                        if (schedule != null) {
-                            noteTime.visibility = View.VISIBLE
-                            // Convert the note's schedule date to a friendly time string
-                            val friendlyTime = schedule.date.let { date ->
+                        noteTime.visibility = View.VISIBLE
+                        // Convert the date to something like (1 day, 2 weeks, etc.)
+                        val readableTime =
+                            schedule!!.date.let { date -> // We know that schedule is not null here
                                 CalendarConverter().convertDateToSomethingCool(
                                     itemView.context,
                                     date
                                 )
-
-                                noteTime.visibility = View.VISIBLE
-                                // Convert the date to something like (1 day, 2 weeks, etc.)
-                                val readableTime =
-                                    schedule!!.date.let { date -> // We know that schedule is not null here
-                                        CalendarConverter().convertDateToSomethingCool(
-                                            itemView.context,
-                                            date
-                                        )
-                                    }
-                                noteTime.text = readableTime
-                                // Check if the schedule is "Late" and set text color
-                                if (readableTime == itemView.context.getString(R.string.late)) {
-                                    noteTime.setTextColor(
-                                        ContextCompat.getColor(
-                                            itemView.context,
-                                            R.color.red
-                                        )
-                                    )
-                                } else {
-                                    noteTime.setTextColor(
-                                        ContextCompat.getColor(
-                                            itemView.context,
-                                            R.color.grey
-                                        )
-                                    )
-                                }
                             }
+                        noteTime.text = readableTime
+                        // Check if the schedule is "Late" and set text color
+                        if (readableTime == itemView.context.getString(R.string.late)) {
+                            noteTime.setTextColor(
+                                ContextCompat.getColor(
+                                    itemView.context,
+                                    R.color.red
+                                )
+                            )
+                        } else {
+                            noteTime.setTextColor(
+                                ContextCompat.getColor(
+                                    itemView.context,
+                                    R.color.grey
+                                )
+                            )
                         }
                     }
                 }
@@ -145,6 +138,11 @@ class NoteRecyclerAdapter(
     }
 }
 
+/**
+ * Intern class to convert a date to a string of readable format
+ *
+ * Authors : Junod Arthur, Dunant Guillaume, Häffner Edwin
+ */
 class CalendarConverter {
     fun convertDateToSomethingCool(context: Context, date: Calendar): String {
         val now = Calendar.getInstance()
@@ -155,6 +153,9 @@ class CalendarConverter {
             return context.getString(R.string.late)
         }
 
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(diff)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(diff)
+        val hours = TimeUnit.MILLISECONDS.toHours(diff)
         val days = TimeUnit.MILLISECONDS.toDays(diff)
         val weeks = days / 7
         val months = days / 30
@@ -163,6 +164,9 @@ class CalendarConverter {
             months > 0 -> context.getString(R.string.months, months)
             weeks > 0 -> context.getString(R.string.weeks, weeks)
             days > 0 -> context.getString(R.string.days, days)
+            hours > 0 -> context.getString(R.string.hours, hours)
+            minutes > 0 -> context.getString(R.string.minutes, minutes)
+            seconds > 0 -> context.getString(R.string.seconds, seconds)
             else -> context.getString(R.string.soon)
         }
     }

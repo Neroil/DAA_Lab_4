@@ -10,6 +10,11 @@ import ch.heigvd.iict.daa.labo4.models.Note
 import ch.heigvd.iict.daa.labo4.models.Schedule
 import kotlin.concurrent.thread
 
+/**
+ * Note database.
+ *
+ * Authors : Junod Arthur, Dunant Guillaume, Häffner Edwin
+ */
 @Database(entities = [Note::class, Schedule::class],
     version = 1,
     exportSchema = true)

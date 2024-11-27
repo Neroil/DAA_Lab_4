@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import ch.heigvd.iict.daa.template.MainActivity
 import ch.heigvd.iict.daa.template.NoteApp
 import ch.heigvd.iict.daa.template.R
+import ch.heigvd.iict.daa.template.databinding.FragmentControlBinding
 import ch.heigvd.iict.daa.template.viewmodel.NoteViewModel
 import ch.heigvd.iict.daa.template.viewmodel.factory.NoteVMFactory
 
@@ -22,6 +23,9 @@ import ch.heigvd.iict.daa.template.viewmodel.factory.NoteVMFactory
  */
 class ControlFragment : Fragment() {
 
+    private var _binding : FragmentControlBinding? = null
+    private val binding get() = _binding!!
+
     private val noteViewModel: NoteViewModel by viewModels {
         NoteVMFactory((activity?.application as NoteApp).repository)
     }
@@ -30,17 +34,17 @@ class ControlFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Assignation de l'action associée au bouton generate
-        view.findViewById<Button>(R.id.generate_btn).setOnClickListener {
+        binding.generateBtn.setOnClickListener {
             noteViewModel.generateANoteAndSchedule();
         }
 
         // Assignation de l'action associée au bouton delete
-        view.findViewById<Button>(R.id.delete_btn).setOnClickListener {
+        binding.deleteBtn.setOnClickListener {
             noteViewModel.deleteAllNoteAndSchedules();
         }
 
         noteViewModel.nbNotesAndSchedules.observe(this.viewLifecycleOwner) { value ->
-            view.findViewById<TextView>(R.id.note_counte).text = value.toString()
+            binding.noteCounte.text = value.toString()
 
         }
     }
@@ -50,6 +54,13 @@ class ControlFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_control, container, false)
+        _binding = FragmentControlBinding.inflate(inflater, container, false)
+        return binding.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

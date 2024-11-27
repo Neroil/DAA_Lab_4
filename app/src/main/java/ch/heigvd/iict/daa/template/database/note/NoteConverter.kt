@@ -4,6 +4,11 @@ import androidx.room.TypeConverter
 import java.util.Calendar
 import java.util.Date
 
+/**
+ * Converter for the database.
+ *
+ * Authors : Junod Arthur, Dunant Guillaume, Häffner Edwin
+ */
 class NoteConverter {
 
     @TypeConverter
